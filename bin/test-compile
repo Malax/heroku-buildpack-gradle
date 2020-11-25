@@ -18,6 +18,9 @@ export GRADLE_USER_HOME=$BUILD_DIR/.gradle
 
 cache_copy ".gradle" $CACHE_DIR $BUILD_DIR
 
+# Workaround, TODO: Document
+mkdir -p "${BUILD_DIR}/.gradle"
+
 $BIN_DIR/compile "$BUILD_DIR" "$CACHE_DIR" "$ENV_DIR"
 
 HEROKU_GRADLE_INIT_SCRIPT="/tmp/resolve.gradle"
@@ -43,3 +46,9 @@ cd $BUILD_DIR
 ./gradlew --no-daemon --init-script $HEROKU_GRADLE_INIT_SCRIPT resolveTestRuntime 2>&1 | output /tmp/.resolveTestRuntime.log
 
 cache_copy ".gradle" $BUILD_DIR $CACHE_DIR
+
+ls -lah "$CACHE_DIR"
+echo "==========================================="
+ls -lah "$CACHE_DIR/.gradle-project" || echo "no .gradle-project"
+echo "==========================================="
+ls -lah "${BUILD_DIR}/.gradle"
